@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="INFO">
+    <Properties>
+        <property name="APP-LOG-ROOT">C:/temp</property>
+        <property name="LOG-PATTERN">%d{yyyy-MM-dd HH:mm:ss} [%t] %p %m%n</property>
+    </Properties>
+    <Appender>
+        <Console name="ConsoleAppender" target="SYQTEM-OUT" follow="true">
+            <PatternLayout pattern="${LOG-PATTERN}"/>
+        </Console>
+        <RollingFile name="RollingFile"
+                     fileName="${APP-LOG-ROOT}/easycontrat.log"
+                     filePattern="${LOG-PATTERN}/easycontrat-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG-PATTERN}"/>
+            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+    </Appender>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+        <Logger name="com/easycontrat" level="INFO" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="RollingFile" />
+        </Logger>
+    </Loggers>
+</Configuration>
