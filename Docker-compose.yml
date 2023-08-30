@@ -1,12 +1,11 @@
 version: "3.9"
 services:
-  #PostgreSQL
+  # PostgreSQL
   postgres:
     image: postgres
     container_name: postgres
     restart: always
     environment:
-      - DATABASE_HOST=127.0.0.1
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=contrat
@@ -14,3 +13,14 @@ services:
       - "5432:5432"
     volumes:
       - ./contrat.sql:/docker-entrypoint-initdb.d/contrat.sql
+
+  # Spring Boot App
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: easycontrat-app
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
